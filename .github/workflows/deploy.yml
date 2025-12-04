@@ -28,7 +28,7 @@ jobs:
 
       # 3. Installer les dépendances
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       # 4. Build de l'application
       - name: Build
