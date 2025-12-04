@@ -1,0 +1,306 @@
+/* ============================
+   HEADER
+   ============================ */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--bg-secondary);
+  border-bottom: 2px solid var(--border-light);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(10px);
+  transition: all var(--transition-medium);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md) 0;
+  gap: var(--spacing-lg);
+  min-height: 70px; /* Hauteur minimum */
+}
+
+/* ============================
+   LOGO
+   ============================ */
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  flex-shrink: 0;
+}
+
+.logo-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--primary-orange) 0%, var(--primary-green) 100%);
+  border-radius: var(--radius-lg);
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: white;
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-medium);
+}
+
+.logo:hover .logo-icon {
+  transform: scale(1.05) rotate(5deg);
+  box-shadow: var(--shadow-orange);
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--primary-orange) 0%, var(--primary-green) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  white-space: nowrap;
+}
+
+/* ============================
+   ACTIONS
+   ============================ */
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  flex-shrink: 0;
+}
+
+/* Tous les enfants directs ont la même hauteur */
+.header-actions > * {
+  display: flex;
+  align-items: center;
+  height: 40px; /* Hauteur fixe pour alignement */
+}
+
+/* ============================
+   WALLET INFO
+   ============================ */
+
+.wallet-info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  height: 40px;
+}
+
+.wallet-address {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  height: 40px;
+  white-space: nowrap;
+}
+
+/* ✅ FIX : Assurer que l'icône est visible */
+.wallet-address svg {
+  color: var(--primary-green);
+  font-size: 1.1rem; /* ← Augmenté */
+  min-width: 18px;   /* ← AJOUTÉ */
+  min-height: 18px;  /* ← AJOUTÉ */
+  flex-shrink: 0;    /* ← AJOUTÉ : Empêche le rétrécissement */
+  display: block;    /* ← AJOUTÉ */
+}
+
+/* ✅ FIX : Icônes dans les boutons */
+.header .btn svg {
+  font-size: 1rem;
+  min-width: 16px;
+  min-height: 16px;
+  flex-shrink: 0;
+  display: block;
+}
+
+.btn-disconnect svg {
+  font-size: 1.1rem;
+  min-width: 18px;
+  min-height: 18px;
+}
+
+.btn-network svg {
+  font-size: 1rem;
+  min-width: 16px;
+  min-height: 16px;
+}
+
+/* ============================
+   BOUTONS HEADER
+   ============================ */
+
+.header .btn {
+  height: 40px;
+  padding: 0 var(--spacing-lg);
+  font-size: 0.95rem;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-network {
+  height: 40px;
+}
+
+.btn-disconnect {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.btn-disconnect svg {
+  font-size: 1rem;
+}
+
+/* ============================
+   THEME TOGGLE DANS HEADER
+   ============================ */
+
+.header-actions .theme-toggle {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+/* ============================
+   RESPONSIVE
+   ============================ */
+
+@media (max-width: 1024px) {
+  .logo-text {
+    display: none;
+  }
+
+  .header-actions {
+    gap: var(--spacing-sm);
+  }
+}
+
+@media (max-width: 768px) {
+  .header-content {
+    padding: var(--spacing-sm) 0;
+    min-height: 60px;
+  }
+
+  .logo-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.25rem;
+  }
+
+  .header-actions > * {
+    height: 36px;
+  }
+
+  .wallet-info,
+  .wallet-address,
+  .header .btn,
+  .btn-network,
+  .btn-disconnect {
+    height: 36px;
+  }
+
+  .header-actions .theme-toggle {
+    height: 36px;
+  }
+
+  .wallet-address {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: 0.8rem;
+  }
+
+  .header .btn {
+    padding: 0 var(--spacing-md);
+    font-size: 0.85rem;
+  }
+
+  .btn-disconnect {
+    width: 36px;
+  }
+
+  /* Cacher le texte "Mauvais réseau" sur mobile */
+  .btn-network span {
+    display: none;
+  }
+
+  .btn-network svg {
+    margin: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-content {
+    gap: var(--spacing-sm);
+  }
+
+  .header-actions {
+    gap: var(--spacing-xs);
+  }
+
+  /* Cacher l'adresse complète, garder juste les boutons */
+  .wallet-address span {
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+/* ============================
+   ANIMATIONS
+   ============================ */
+
+.header-content {
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================
+   LIGHT MODE ADJUSTMENTS
+   ============================ */
+
+[data-theme="light"] .header {
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-light);
+}
+
+[data-theme="light"] .wallet-address {
+  background: var(--bg-secondary);
+  border-color: var(--border-medium);
+}
+
+[data-theme="light"] .logo-icon {
+  box-shadow: var(--shadow-sm);
+}
+
+[data-theme="light"] .logo:hover .logo-icon {
+  box-shadow: var(--shadow-md);
+}

@@ -1,0 +1,46 @@
+.admin-network-view {
+  padding: var(--spacing-xl) 0;
+}
+
+.admin-network-info {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-xl);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--primary-orange);
+}
+
+.info-icon {
+  font-size: 3rem;
+  color: var(--primary-orange);
+  flex-shrink: 0;
+}
+
+.admin-network-info h4 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 var(--spacing-sm) 0;
+}
+
+.admin-network-info p {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.admin-note {
+  margin-top: var(--spacing-xl);
+  padding: var(--spacing-lg);
+  background: rgba(255, 107, 53, 0.1);
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--primary-orange);
+}
+
+.admin-note p {
+  margin: 0;
+  font-size: 0.875rem;
+}
