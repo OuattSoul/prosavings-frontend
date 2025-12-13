@@ -5,6 +5,7 @@ export const useProSavings = (contract, account) => {
   const [accountData, setAccountData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [globalStats, setGlobalStats] = useState({ totalAccounts: 0 });
 
   const loadAccountData = useCallback(async () => {
     if (!contract || !account) {
@@ -17,6 +18,17 @@ export const useProSavings = (contract, account) => {
 
     try {
       console.log("📡 Chargement données pour:", account);
+
+      // ✅ CHARGER LES STATISTIQUES GLOBALES
+      let totalAccountsRegistered = 0;
+      try {
+        const totalAccounts = await contract.totalAccountsRegistered();
+        totalAccountsRegistered = Number(totalAccounts);
+        setGlobalStats({ totalAccounts: totalAccountsRegistered });
+        console.log("✅ Total de comptes dans le réseau:", totalAccountsRegistered);
+      } catch (err) {
+        console.warn("⚠️ Impossible de charger totalAccountsRegistered:", err.message);
+      }
       
       // Appeler getAccountFullInfo
       const data = await contract.getAccountFullInfo(account);
@@ -94,15 +106,22 @@ export const useProSavings = (contract, account) => {
 
       // Calculer métriques
       const referralsCount = accountInfo.referrals.length;
-      const gradesUnlockedCount = accountInfo.gradesUnlocked.filter((unlocked, index) => 
+      const gradesUnlockedCount = accountInfo.gradesUnlocked.filter((unlocked, index) =>
         index > 0 && unlocked
       ).length;
+
+      // ✅ VÉRIFIER SI LE COMPTE EST EXPIRÉ
+      // Un compte est expiré quand il atteint le grade 3, niveau 9 (dernier niveau possible)
+      // et qu'il a terminé de recevoir ses gains
+      const isExpired = accountInfo.grade === 3 && accountInfo.level === 9;
 
       const finalData = {
         ...accountInfo,
         referralsCount,
         gradesUnlockedCount,
-        registrationDate: null // Non disponible dans votre contrat
+        registrationDate: null, // Non disponible dans votre contrat
+        isExpired, // ✅ Nouveau champ pour indiquer l'expiration
+        totalAccountsRegistered // ✅ Nombre total de membres dans le réseau global
       };
 
       setAccountData(finalData);
@@ -181,7 +200,9 @@ export const useProSavings = (contract, account) => {
     loadAccountData();
   }, [loadAccountData]);
 
-  // Auto-refresh toutes les 30s
+  // ❌ Auto-refresh désactivé (causait des problèmes avec le chargement du downline)
+  // Si vous souhaitez réactiver, décommentez le code ci-dessous
+  /*
   useEffect(() => {
     if (!contract || !account) return;
     const interval = setInterval(() => {
@@ -189,6 +210,7 @@ export const useProSavings = (contract, account) => {
     }, 30000);
     return () => clearInterval(interval);
   }, [contract, account, loadAccountData]);
+  */
 
   return {
     accountData,
@@ -198,6 +220,7 @@ export const useProSavings = (contract, account) => {
     getSponsorChain,
     getReferrals,
     canUnlockNextGrade,
-    register
+    register,
+    globalStats // ✅ Statistiques globales du réseau
   };
 };

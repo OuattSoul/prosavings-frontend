@@ -193,13 +193,11 @@ function App() {
               />
             ) : (
               // MEMBRE NORMAL
-              <Dashboard
-                accountData={accountData}
+              <Dashboard 
+                accountData={accountData} 
                 loading={dataLoading}
                 error={dataError}
                 onRetry={loadAccountData}
-                contract={contract}
-                account={account}
               />
             )}
 

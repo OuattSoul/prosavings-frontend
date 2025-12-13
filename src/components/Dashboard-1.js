@@ -12,10 +12,9 @@ import { GRADE_CONFIG } from '../config';
 import ErrorMessage from './ErrorMessage';
 import EmptyState from './EmptyState';
 import AccountExpiration from './AccountExpiration';
-import DownlineTree from './DownlineTree';
 import './Dashboard.css';
 
-const Dashboard = ({ accountData, loading, error, onRetry, contract, account }) => {
+const Dashboard = ({ accountData, loading, error, onRetry }) => {
   // État de chargement
   if (loading) {
     return (
@@ -171,8 +170,7 @@ const Dashboard = ({ accountData, loading, error, onRetry, contract, account }) 
     referralsCount,
     gradesUnlockedCount,
     isFirstAccount,
-    isExpired,
-    totalAccountsRegistered
+    isExpired
   } = accountData;
 
   const currentGrade = GRADE_CONFIG[grade] || GRADE_CONFIG[1];
@@ -182,19 +180,10 @@ const Dashboard = ({ accountData, loading, error, onRetry, contract, account }) 
       <div className="container">
         {/* En-tête */}
         <div className="dashboard-header">
-          <div>
-            <h2>Mon Tableau de Bord</h2>
-            {isFirstAccount && (
-              <span className="badge badge-orange">👑 Compte Fondateur</span>
-            )}
-          </div>
-          <button
-            className="btn-refresh"
-            onClick={onRetry}
-            title="Actualiser les données"
-          >
-            🔄 Actualiser
-          </button>
+          <h2>Mon Tableau de Bord</h2>
+          {isFirstAccount && (
+            <span className="badge badge-orange">👑 Compte Fondateur</span>
+          )}
         </div>
 
         {/* ✅ AFFICHAGE DE L'EXPIRATION DU COMPTE */}
@@ -208,20 +197,6 @@ const Dashboard = ({ accountData, loading, error, onRetry, contract, account }) 
 
         {/* Statistiques Principales */}
         <div className="stats-grid grid grid-4">
-          {/* Total Membres Global */}
-          <div className="stat-card card">
-            <div className="stat-icon purple">
-              <FaUsers />
-            </div>
-            <div className="stat-content">
-              <h3>{totalAccountsRegistered || 0}</h3>
-              <p className="stat-label">Membres Total</p>
-              <div className="stat-detail">
-                <span className="text-purple">Réseau global</span>
-              </div>
-            </div>
-          </div>
-
           {/* Grade */}
           <div className="stat-card card">
             <div className="stat-icon" style={{ background: currentGrade.color }}>
@@ -387,6 +362,12 @@ const Dashboard = ({ accountData, loading, error, onRetry, contract, account }) 
                   <span className="info-value">{((referralsCount / 2) * 100).toFixed(0)}%</span>
                 </div>
                 <div className="info-item">
+                  <span className="info-label">Gains moyens/personne:</span>
+                  <span className="info-value">
+                    {networkCount > 0 ? (parseFloat(totalEarnings) / networkCount).toFixed(2) : '0.00'} USDT
+                  </span>
+                </div>
+                <div className="info-item">
                   <span className="info-label">Réseau actif:</span>
                   <span className="info-value">
                     <span className="badge badge-success">✓ Actif</span>
@@ -396,15 +377,6 @@ const Dashboard = ({ accountData, loading, error, onRetry, contract, account }) 
             </div>
           </div>
         </div>
-
-        {/* ✅ ARBRE DOWNLINE COMPLET */}
-        {contract && account && (
-          <DownlineTree
-            contract={contract}
-            rootAddress={accountData.wallet}
-            maxDepth={15}
-          />
-        )}
       </div>
     </div>
   );

@@ -78,7 +78,7 @@ const NetworkView = ({ accountData, contract, account }) => {
               ) : referrals.length === 0 ? (
                 <div className="empty-state">
                   <p className="text-muted">Aucun filleul direct pour le moment.</p>
-                  
+                  <p className="text-muted">Partagez votre lien de parrainage !</p>
                 </div>
               ) : (
                 <div className="referrals-list">
@@ -114,10 +114,87 @@ const NetworkView = ({ accountData, contract, account }) => {
             </div>
           </div>
 
-          
+          {/* Chaîne de Sponsors */}
+          <div className="card">
+            <div className="card-header">
+              <h3 className="card-title">
+                <FaUsers className="text-orange" />
+                Ma Ligne de Sponsors
+              </h3>
+            </div>
+            <div className="card-body">
+              {loading ? (
+                <div className="loading-container">
+                  <div className="spinner"></div>
+                  <p>Chargement...</p>
+                </div>
+              ) : sponsorChain.length === 0 ? (
+                <div className="empty-state">
+                  <p className="text-muted">Aucun sponsor</p>
+                </div>
+              ) : (
+                <div className="sponsor-chain">
+                  {sponsorChain.map((address, index) => (
+                    <div key={index} className="sponsor-item">
+                      <div className="sponsor-level">
+                        Niveau -{index + 1}
+                      </div>
+                      <div className="sponsor-address">
+                        {formatAddress(address)}
+                      </div>
+                      <button
+                        className="btn-copy"
+                        onClick={() => copyToClipboard(address)}
+                        title="Copier l'adresse"
+                      >
+                        {copied ? <FaCheck /> : <FaCopy />}
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
-        
+        {/* Lien de Parrainage */}
+        <div className="card referral-link-card">
+          <div className="card-header">
+            <h3 className="card-title">
+              <FaUserFriends className="text-green" />
+              Votre Lien de Parrainage
+            </h3>
+          </div>
+          <div className="card-body">
+            <p className="text-muted">
+              Partagez ce lien pour inviter de nouveaux membres dans votre réseau :
+            </p>
+            <div className="referral-link-container">
+              <input
+                type="text"
+                value={referralLink}
+                readOnly
+                className="referral-link-input"
+              />
+              <button
+                className="btn btn-primary"
+                onClick={() => copyToClipboard(referralLink)}
+              >
+                {copied ? (
+                  <>
+                    <FaCheck />
+                    Copié !
+                  </>
+                ) : (
+                  <>
+                    <FaCopy />
+                    Copier
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
