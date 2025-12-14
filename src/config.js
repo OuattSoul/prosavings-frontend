@@ -26,9 +26,9 @@ export const CONTRACT_CONFIG = {
 
 // Configuration des grades
 export const GRADE_CONFIG = {
-  1: { name: "Gold", cost: "0", minNetwork: 0, color: "#FFD700" },
-  2: { name: "Emeraude", cost: "60", minNetwork: 15, color: "#00674F" },
-  3: { name: "Diamond", cost: "250", minNetwork: 128, color: "#b9f2ff" } //#CD7F32
+  1: { name: "Gold", cost: "0", minNetwork: 14, color: "#FFD700" },
+  2: { name: "Emeraude", cost: "60", minNetwork: 112, color: "#00674F" },
+  3: { name: "Diamond", cost: "250", minNetwork: 896, color: "#b9f2ff" } //#CD7F32
 };
 
 // Paramètres réseau BSC
