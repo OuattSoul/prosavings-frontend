@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/prosavings-frontend/static/css/main.7b48138c.css",
-    "main.js": "/prosavings-frontend/static/js/main.2f9ffd88.js",
+    "main.js": "/prosavings-frontend/static/js/main.b9944475.js",
     "index.html": "/prosavings-frontend/index.html",
     "main.7b48138c.css.map": "/prosavings-frontend/static/css/main.7b48138c.css.map",
-    "main.2f9ffd88.js.map": "/prosavings-frontend/static/js/main.2f9ffd88.js.map"
+    "main.b9944475.js.map": "/prosavings-frontend/static/js/main.b9944475.js.map"
   },
   "entrypoints": [
     "static/css/main.7b48138c.css",
-    "static/js/main.2f9ffd88.js"
+    "static/js/main.b9944475.js"
   ]
 }
