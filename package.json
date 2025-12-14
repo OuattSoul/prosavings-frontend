@@ -2,7 +2,7 @@
   "name": "prosavings-dapp",
   "version": "1.0.0",
   "description": "ProSavings Network Dashboard - Interface de suivi du réseau",
-  "homepage": "https://ouattsoul.github.io/prosavings-frontend/",
+  "homepage": ".",
   "private": true,
   "dependencies": {
     "ethers": "^6.9.0",
