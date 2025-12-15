@@ -4,12 +4,11 @@ import { GRADE_CONFIG } from '../config';
 import './DownlineTable.css';
 
 const DownlineTable = ({ contract, rootAddress, maxDepth = 15 }) => {
-  const [downlineList, setDownlineList] = useState([]);
+  const [downlineByLevel, setDownlineByLevel] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [hasLoaded, setHasLoaded] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const [selectedLevel, setSelectedLevel] = useState(1);
 
   // Fonction récursive pour collecter tous les membres du downline
   const collectDownlineMembers = useCallback(async (address, depth = 0, parentAddress = null) => {
@@ -62,7 +61,7 @@ const DownlineTable = ({ contract, rootAddress, maxDepth = 15 }) => {
     }
   }, [contract, maxDepth]);
 
-  // Charger la liste complète du downline
+  // Charger et organiser le downline par niveaux
   useEffect(() => {
     const loadDownline = async () => {
       if (!contract || !rootAddress || hasLoaded) return;
@@ -73,9 +72,19 @@ const DownlineTable = ({ contract, rootAddress, maxDepth = 15 }) => {
       try {
         console.log("📡 Chargement du downline complet pour:", rootAddress);
         const members = await collectDownlineMembers(rootAddress, 0);
-        setDownlineList(members);
+
+        // Organiser les membres par niveau (depth)
+        const byLevel = {};
+        members.forEach(member => {
+          if (!byLevel[member.depth]) {
+            byLevel[member.depth] = [];
+          }
+          byLevel[member.depth].push(member);
+        });
+
+        setDownlineByLevel(byLevel);
         setHasLoaded(true);
-        console.log("✅ Downline chargé:", members.length, "membres");
+        console.log("✅ Downline chargé et organisé par niveaux:", byLevel);
       } catch (err) {
         console.error("❌ Erreur chargement downline:", err);
         setError(err.message);
@@ -90,33 +99,33 @@ const DownlineTable = ({ contract, rootAddress, maxDepth = 15 }) => {
   // Fonction pour recharger manuellement
   const reloadDownline = async () => {
     setHasLoaded(false);
-    setDownlineList([]);
+    setDownlineByLevel({});
     setError(null);
-    setCurrentPage(1);
+    setSelectedLevel(1);
   };
 
-  // Calcul de la pagination
-  const totalPages = Math.ceil(downlineList.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentMembers = downlineList.slice(startIndex, endIndex);
+  // Calculer les niveaux disponibles et les statistiques
+  const availableLevels = Object.keys(downlineByLevel)
+    .map(Number)
+    .sort((a, b) => a - b);
 
-  // Navigation pagination
-  const goToPage = (page) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
+  const totalMembers = Object.values(downlineByLevel).reduce((sum, members) => sum + members.length, 0);
+
+  // Membres du niveau sélectionné
+  const currentLevelMembers = downlineByLevel[selectedLevel] || [];
+
+  // Navigation entre niveaux
+  const goToPrevLevel = () => {
+    const currentIndex = availableLevels.indexOf(selectedLevel);
+    if (currentIndex > 0) {
+      setSelectedLevel(availableLevels[currentIndex - 1]);
     }
   };
 
-  const goToPrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const goToNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
+  const goToNextLevel = () => {
+    const currentIndex = availableLevels.indexOf(selectedLevel);
+    if (currentIndex < availableLevels.length - 1) {
+      setSelectedLevel(availableLevels[currentIndex + 1]);
     }
   };
 
@@ -159,11 +168,11 @@ const DownlineTable = ({ contract, rootAddress, maxDepth = 15 }) => {
       <div className="downline-table-header">
         <h3>
           <FaUsers />
-          Votre Downline Complet
+          Votre Downline par Niveaux
         </h3>
         <div className="downline-stats">
           <span className="stat-badge">
-            Total: {downlineList.length} membre{downlineList.length > 1 ? 's' : ''}
+            Total: {totalMembers} membre{totalMembers > 1 ? 's' : ''}
           </span>
           <button
             className="btn-reload"
@@ -176,13 +185,59 @@ const DownlineTable = ({ contract, rootAddress, maxDepth = 15 }) => {
         </div>
       </div>
 
-      {downlineList.length === 0 ? (
+      {totalMembers === 0 ? (
         <div className="empty-downline">
           <p>Aucun membre dans votre downline pour le moment</p>
           <p className="empty-subtitle">Commencez à parrainer pour développer votre réseau</p>
         </div>
       ) : (
         <>
+          {/* Navigation par niveaux */}
+          <div className="level-navigation">
+            <button
+              className="level-nav-btn"
+              onClick={goToPrevLevel}
+              disabled={availableLevels.indexOf(selectedLevel) === 0}
+            >
+              <FaChevronLeft />
+              Niveau Précédent
+            </button>
+
+            <div className="level-tabs">
+              {availableLevels.map(level => (
+                <button
+                  key={level}
+                  className={`level-tab ${level === selectedLevel ? 'active' : ''}`}
+                  onClick={() => setSelectedLevel(level)}
+                >
+                  <div className="level-tab-label">Niveau {level}</div>
+                  <div className="level-tab-count">
+                    {downlineByLevel[level].length} membre{downlineByLevel[level].length > 1 ? 's' : ''}
+                  </div>
+                </button>
+              ))}
+            </div>
+
+            <button
+              className="level-nav-btn"
+              onClick={goToNextLevel}
+              disabled={availableLevels.indexOf(selectedLevel) === availableLevels.length - 1}
+            >
+              Niveau Suivant
+              <FaChevronRight />
+            </button>
+          </div>
+
+          {/* Info du niveau actuel */}
+          <div className="level-info">
+            <h4>Niveau {selectedLevel}</h4>
+            <p>
+              {currentLevelMembers.length} membre{currentLevelMembers.length > 1 ? 's' : ''} à ce niveau
+              {selectedLevel === 1 && ' (vos filleuls directs)'}
+            </p>
+          </div>
+
+          {/* Tableau des membres du niveau */}
           <div className="table-wrapper">
             <table className="downline-table">
               <thead>
@@ -190,27 +245,25 @@ const DownlineTable = ({ contract, rootAddress, maxDepth = 15 }) => {
                   <th>#</th>
                   <th>Adresse</th>
                   <th>Grade</th>
-                  <th>Niveau</th>
+                  <th>Niveau Grade</th>
                   <th>Réseau</th>
                   <th>Gains (USDT)</th>
-                  <th>Profondeur</th>
                 </tr>
               </thead>
               <tbody>
-                {currentMembers.map((member, index) => {
+                {currentLevelMembers.map((member, index) => {
                   const gradeInfo = GRADE_CONFIG[member.grade] || GRADE_CONFIG[1];
-                  const globalIndex = startIndex + index + 1;
 
                   return (
                     <tr key={member.address}>
-                      <td>{globalIndex}</td>
+                      <td>{index + 1}</td>
                       <td className="address-cell">
                         <span className="address-text" title={member.address}>
                           {formatAddress(member.address)}
                         </span>
                       </td>
                       <td>
-                        <span className="grade-badge">
+                        <span className="grade-badge" style={{ background: gradeInfo.color }}>
                           <FaTrophy />
                           {gradeInfo.name}
                         </span>
@@ -222,11 +275,6 @@ const DownlineTable = ({ contract, rootAddress, maxDepth = 15 }) => {
                       </td>
                       <td>{member.networkCount}</td>
                       <td>{formatEarnings(member.totalEarnings)}</td>
-                      <td>
-                        <span className="depth-badge">
-                          Niveau {member.depth}
-                        </span>
-                      </td>
                     </tr>
                   );
                 })}
@@ -234,79 +282,17 @@ const DownlineTable = ({ contract, rootAddress, maxDepth = 15 }) => {
             </table>
           </div>
 
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="pagination">
-              <button
-                className="pagination-btn"
-                onClick={goToPrevPage}
-                disabled={currentPage === 1}
-              >
-                <FaChevronLeft />
-                Précédent
-              </button>
-
-              <div className="pagination-pages">
-                {/* Première page */}
-                {currentPage > 3 && (
-                  <>
-                    <button
-                      className="pagination-page"
-                      onClick={() => goToPage(1)}
-                    >
-                      1
-                    </button>
-                    {currentPage > 4 && <span className="pagination-ellipsis">...</span>}
-                  </>
-                )}
-
-                {/* Pages autour de la page actuelle */}
-                {Array.from({ length: totalPages }, (_, i) => i + 1)
-                  .filter(page => {
-                    return page === currentPage ||
-                           page === currentPage - 1 ||
-                           page === currentPage + 1 ||
-                           page === currentPage - 2 ||
-                           page === currentPage + 2;
-                  })
-                  .map(page => (
-                    <button
-                      key={page}
-                      className={`pagination-page ${page === currentPage ? 'active' : ''}`}
-                      onClick={() => goToPage(page)}
-                    >
-                      {page}
-                    </button>
-                  ))}
-
-                {/* Dernière page */}
-                {currentPage < totalPages - 2 && (
-                  <>
-                    {currentPage < totalPages - 3 && <span className="pagination-ellipsis">...</span>}
-                    <button
-                      className="pagination-page"
-                      onClick={() => goToPage(totalPages)}
-                    >
-                      {totalPages}
-                    </button>
-                  </>
-                )}
-              </div>
-
-              <button
-                className="pagination-btn"
-                onClick={goToNextPage}
-                disabled={currentPage === totalPages}
-              >
-                Suivant
-                <FaChevronRight />
-              </button>
+          {/* Résumé des niveaux */}
+          <div className="levels-summary">
+            <h4>Résumé par Niveaux</h4>
+            <div className="levels-summary-grid">
+              {availableLevels.map(level => (
+                <div key={level} className={`summary-item ${level === selectedLevel ? 'active' : ''}`}>
+                  <div className="summary-level">Niveau {level}</div>
+                  <div className="summary-count">{downlineByLevel[level].length}</div>
+                </div>
+              ))}
             </div>
-          )}
-
-          {/* Info pagination */}
-          <div className="pagination-info">
-            Affichage de {startIndex + 1} à {Math.min(endIndex, downlineList.length)} sur {downlineList.length} membres
           </div>
         </>
       )}
