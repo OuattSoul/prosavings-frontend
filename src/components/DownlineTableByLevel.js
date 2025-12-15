@@ -263,7 +263,7 @@ const DownlineTableByLevel = ({ contract, rootAddress, maxDepth = 15 }) => {
                         </span>
                       </td>
                       <td>
-                        <span className="grade-badge" style={{ background: gradeInfo.color }}>
+                        <span className="grade-badge" >
                           <FaTrophy />
                           {gradeInfo.name}
                         </span>
