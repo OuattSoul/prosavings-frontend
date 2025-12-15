@@ -1,0 +1,404 @@
+/* ================================
+   DOWNLINE TABLE CONTAINER
+   ================================ */
+.downline-table-container {
+  margin-top: 2rem;
+  background: #1a1a2e;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.downline-table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.downline-table-header h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  color: #fff;
+  margin: 0;
+}
+
+.downline-table-header h3 svg {
+  color: #ff6b35;
+}
+
+.downline-stats {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.stat-badge {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.btn-reload {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-reload:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(245, 87, 108, 0.4);
+}
+
+.btn-reload:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ================================
+   TABLE WRAPPER & TABLE
+   ================================ */
+.table-wrapper {
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  background: #16213e;
+}
+
+.downline-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.downline-table thead {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.downline-table th {
+  padding: 1rem;
+  text-align: left;
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+.downline-table tbody tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background 0.2s ease;
+}
+
+.downline-table tbody tr:hover {
+  background: rgba(102, 126, 234, 0.1);
+}
+
+.downline-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.downline-table td {
+  padding: 1rem;
+  color: #e0e0e0;
+}
+
+/* ================================
+   TABLE CELLS
+   ================================ */
+.address-cell {
+  font-family: 'Courier New', monospace;
+}
+
+.address-text {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.address-text:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.grade-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  color: white;
+  font-weight: 600;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.grade-badge svg {
+  font-size: 0.9rem;
+}
+
+.level-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  padding: 0.3rem 0.6rem;
+  border-radius: 12px;
+  color: white;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.depth-badge {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.3rem 0.6rem;
+  border-radius: 12px;
+  color: #b0b0b0;
+  font-size: 0.85rem;
+}
+
+/* ================================
+   PAGINATION
+   ================================ */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.pagination-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.pagination-pages {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.pagination-page {
+  background: rgba(255, 255, 255, 0.05);
+  color: #e0e0e0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.5rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  min-width: 40px;
+  text-align: center;
+}
+
+.pagination-page:hover {
+  background: rgba(102, 126, 234, 0.3);
+  border-color: rgba(102, 126, 234, 0.5);
+}
+
+.pagination-page.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-color: transparent;
+}
+
+.pagination-ellipsis {
+  color: #888;
+  padding: 0 0.3rem;
+}
+
+.pagination-info {
+  text-align: center;
+  color: #b0b0b0;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+/* ================================
+   LOADING & ERROR STATES
+   ================================ */
+.downline-table-loading,
+.downline-table-error {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  background: #1a1a2e;
+  border-radius: 12px;
+  margin-top: 2rem;
+}
+
+.downline-table-loading .spinner-icon {
+  font-size: 3rem;
+  color: #667eea;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.downline-table-loading p {
+  color: #fff;
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+}
+
+.loading-subtitle {
+  color: #888;
+  font-size: 0.9rem !important;
+}
+
+.downline-table-error p {
+  color: #ff6b6b;
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+}
+
+.error-details {
+  color: #888;
+  font-size: 0.9rem !important;
+  font-family: 'Courier New', monospace;
+}
+
+/* ================================
+   EMPTY STATE
+   ================================ */
+.empty-downline {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+}
+
+.empty-downline p {
+  color: #b0b0b0;
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+}
+
+.empty-subtitle {
+  color: #888;
+  font-size: 0.9rem !important;
+}
+
+/* ================================
+   RESPONSIVE DESIGN
+   ================================ */
+@media (max-width: 768px) {
+  .downline-table-container {
+    padding: 1rem;
+  }
+
+  .downline-table-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .downline-table-header h3 {
+    font-size: 1.3rem;
+  }
+
+  .downline-stats {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .downline-table {
+    font-size: 0.85rem;
+  }
+
+  .downline-table th,
+  .downline-table td {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .downline-table th {
+    font-size: 0.75rem;
+  }
+
+  /* Masquer certaines colonnes sur mobile */
+  .downline-table th:nth-child(5),
+  .downline-table td:nth-child(5),
+  .downline-table th:nth-child(6),
+  .downline-table td:nth-child(6) {
+    display: none;
+  }
+
+  .pagination {
+    gap: 0.3rem;
+  }
+
+  .pagination-btn {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.85rem;
+  }
+
+  .pagination-page {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.85rem;
+    min-width: 35px;
+  }
+}
+
+@media (max-width: 480px) {
+  .downline-table th:nth-child(7),
+  .downline-table td:nth-child(7) {
+    display: none;
+  }
+
+  .grade-badge {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
+  }
+
+  .level-badge {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+  }
+}

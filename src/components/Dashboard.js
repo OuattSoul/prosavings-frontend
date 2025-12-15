@@ -12,7 +12,7 @@ import { GRADE_CONFIG } from '../config';
 import ErrorMessage from './ErrorMessage';
 import EmptyState from './EmptyState';
 import AccountExpiration from './AccountExpiration';
-import DownlineTree from './DownlineTree';
+import DownlineTable from './DownlineTable';
 import './Dashboard.css';
 
 const Dashboard = ({ accountData, loading, error, onRetry, contract, account }) => {
@@ -397,9 +397,9 @@ const Dashboard = ({ accountData, loading, error, onRetry, contract, account }) 
           </div>
         </div>
 
-        {/* ✅ ARBRE DOWNLINE COMPLET */}
+        {/* ✅ TABLEAU DOWNLINE COMPLET */}
         {contract && account && (
-          <DownlineTree
+          <DownlineTable
             contract={contract}
             rootAddress={accountData.wallet}
             maxDepth={15}
