@@ -58,10 +58,10 @@ export const useProSavings = (contract, account) => {
         networkCount: data[4] ? Number(data[4]) : 0,
         totalEarnings: data[5] ? ethers.formatEther(data[5]) : "0",
         isFirstAccount: Boolean(data[6]),
-        
+
         // ✅ CHAMPS CALCULÉS/DÉRIVÉS
-        // isRegistered: On considère inscrit si networkCount > 0 OU isFirstAccount
-        isRegistered: (data[4] && Number(data[4]) > 0) || Boolean(data[6]),
+        // isRegistered: On considère inscrit si le compte a un sponsor valide (différent de l'adresse zéro) OU si c'est le compte fondateur
+        isRegistered: (data[1] && data[1] !== ethers.ZeroAddress) || Boolean(data[6]),
         
         // pendingBalance: Non disponible dans votre contrat
         pendingBalance: "0",

@@ -77,8 +77,10 @@ const NetworkView = ({ accountData, contract, account }) => {
                 </div>
               ) : referrals.length === 0 ? (
                 <div className="empty-state">
-                  <p className="text-muted">Aucun filleul direct pour le moment.</p>
-                  
+                  <p className="text-muted">Vous n'avez pas encore de filleuls directs.</p>
+                  <p className="empty-state-subtitle">
+                    Partagez votre lien de parrainage pour développer votre réseau et commencer à gagner des commissions !
+                  </p>
                 </div>
               ) : (
                 <div className="referrals-list">
