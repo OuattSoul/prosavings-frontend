@@ -203,6 +203,7 @@ const Dashboard = ({ accountData, loading, error, onRetry, contract, account }) 
             isExpired={isExpired}
             grade={grade}
             level={level}
+            networkCount={networkCount}
           />
         )}
 

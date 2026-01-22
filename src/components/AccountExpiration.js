@@ -1,7 +1,7 @@
 import React from 'react';
 import './AccountExpiration.css';
 
-const AccountExpiration = ({ isExpired, grade, level }) => {
+const AccountExpiration = ({ isExpired, grade, level, networkCount }) => {
   if (!isExpired) {
     return null;
   }
@@ -28,11 +28,11 @@ const AccountExpiration = ({ isExpired, grade, level }) => {
         <div className="expiration-content">
           <h2 className="expiration-title">Compte Expiré</h2>
           <p className="expiration-message">
-            Félicitations ! Vous avez atteint le niveau maximum (Grade {grade}, Niveau {level}).
+            Félicitations ! Votre réseau est complet avec {networkCount} comptes.
           </p>
           <p className="expiration-details">
             Vous avez terminé de recevoir tous les gains possibles du programme ProSavings.
-            Votre compte est maintenant marqué comme complété.
+            Votre compte est maintenant marqué comme complété (Grade {grade}, Niveau {level}).
           </p>
         </div>
 

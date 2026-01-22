@@ -111,9 +111,8 @@ export const useProSavings = (contract, account) => {
       ).length;
 
       // ✅ VÉRIFIER SI LE COMPTE EST EXPIRÉ
-      // Un compte est expiré quand il atteint le grade 3, niveau 9 (dernier niveau possible)
-      // et qu'il a terminé de recevoir ses gains
-      const isExpired = accountInfo.grade === 3 && accountInfo.level === 9;
+      // Un compte est expiré quand il a 1022 comptes dans son réseau (réseau complet)
+      const isExpired = accountInfo.networkCount >= 1022;
 
       const finalData = {
         ...accountInfo,
